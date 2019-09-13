@@ -47,7 +47,9 @@
         </div>
       </div>
     </div>
-    <div class="main" v-else>Loading...</div>
+    <div class="main" v-else>
+      <div class="loading"><div></div></div>
+    </div>
   </div>
 </template>
 

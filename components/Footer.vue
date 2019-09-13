@@ -9,7 +9,7 @@
 <style scoped>
 .footer {
   text-align: center;
-  margin-top: 100px;
+  margin-top: 30px;
 }
 
 .footer > .container {

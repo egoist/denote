@@ -23,7 +23,7 @@ module.exports = {
       }
     ]
   },
-  css: ['grid.css/grid.css', './css/global.css'],
+  css: ['grid.css/grid.css', './css/global.css', './css/loading.css'],
   build: {
     postcss: {
       plugins: [

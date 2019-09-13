@@ -32,7 +32,7 @@
               </div>
               <div class="note" :key="note.id" v-else>
                 <div class="note-title" v-if="note.title">{{ note.title }}</div>
-                <div class="note-content">{{ note.content }}</div>
+                <div class="note-content" v-html="toHTML(note.content)"></div>
                 <div class="note-meta">
                   <span class="note-date">{{ formatDate(new Date(note.createdAt)) }}</span>
                   <span class="note-action" @click="editingIds.push(note.id)">Edit</span>
@@ -55,6 +55,7 @@
 
 <script>
 import Vue from 'vue'
+import marked from 'marked'
 import { userSession } from '../utils/userSession'
 import { uid } from '../utils/uid'
 import tinydate from 'tinydate'
@@ -161,6 +162,10 @@ export default Vue.extend({
 
     handleCancelEditNote(note) {
       this.editingIds = this.editingIds.filter(id => id !== note.id)
+    },
+
+    toHTML(content) {
+      return marked(content)
     }
   },
 

@@ -73,15 +73,27 @@ export default Vue.extend({
 
 .features {
   display: flex;
+  text-align: center;
+
+  @media (max-width: 992px) {
+    flex-direction: column;
+
+    & .feature {
+      padding: 0;
+      &:not(:last-child) {
+        margin-bottom: 20px;
+      }
+    }
+  }
 }
 
 .feature {
-  padding-right: 10px;
+  padding-right: 0 10px;
 }
 
 .feature-title {
   font-size: 1.4rem;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   color: var(--active-text-color);
 }
 </style>

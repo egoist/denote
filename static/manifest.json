@@ -1,10 +1,12 @@
 {
   "name": "Denote",
-  "start_url": "./index.html",
-  "description": "Decentralizaed Google Keep",
-  "icons": [{
-    "src": "denote.png",
-    "sizes": "400x400",
-    "type": "image/png"
-  }]
+  "start_url": ["denote.xyz", "localhost:3000"],
+  "description": "Decentralized Google Keep",
+  "icons": [
+    {
+      "src": "https://denote.xyz/denote.png",
+      "sizes": "400x400",
+      "type": "image/png"
+    }
+  ]
 }

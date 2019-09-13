@@ -8,6 +8,12 @@
           <button class="button" @click="signIn">Sign In</button>
         </div>
       </div>
+      <div class="features">
+        <div class="feature" v-for="feature in features" :key="feature.title">
+          <div class="feature-title" v-html="feature.title"></div>
+          <div class="feature-content" v-html="feature.content"></div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -20,6 +26,25 @@ import { userSession } from '../utils/userSession'
 export default Vue.extend({
   components: {
     Logo
+  },
+
+  data() {
+    return {
+      features: [
+        {
+          title: 'Your notes.. decentralized',
+          content: `Do you want to keep sensitive data in your notes? If you don't want to give your data away, Denote is just for you!`
+        },
+        {
+          title: 'Free and Open Source',
+          content: `Denote is a <a href="https://github.com/egoist/denote">free and open source app</a>, our goal is to become one of the best note apps on blockstack.`
+        },
+        {
+          title: 'Simple and easy-to-use',
+          content: `Inspired by the simple design of Google Keep, Denote is just about notes and nothing else!`
+        }
+      ]
+    }
   },
 
   methods: {
@@ -44,5 +69,19 @@ export default Vue.extend({
 
 .actions {
   margin-top: 50px;
+}
+
+.features {
+  display: flex;
+}
+
+.feature {
+  padding-right: 10px;
+}
+
+.feature-title {
+  font-size: 1.4rem;
+  margin-bottom: 10px;
+  color: var(--active-text-color);
 }
 </style>

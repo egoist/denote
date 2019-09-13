@@ -3,6 +3,7 @@
     <Header />
     <Dashboard v-if="isSignedIn" />
     <Landing v-else />
+    <Footer />
   </div>
 </template>
 
@@ -12,12 +13,14 @@ import { userSession } from '../utils/userSession'
 import Landing from '../components/Landing'
 import Dashboard from '../components/Dashboard'
 import Header from '../components/Header'
+import Footer from '../components/Footer'
 
 export default Vue.extend({
   components: {
     Landing,
     Dashboard,
-    Header
+    Header,
+    Footer
   },
 
   data() {

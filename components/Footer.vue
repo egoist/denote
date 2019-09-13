@@ -16,5 +16,6 @@
   border-top: 1px solid var(--border-color);
   padding: 50px 0;
   width: calc(var(--container-width) - 20px);
+  max-width: 100%;
 }
 </style>

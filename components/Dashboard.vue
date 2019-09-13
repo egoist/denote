@@ -10,6 +10,14 @@
             <div class="add-note-trigger" v-else @click="addNote = true">
               <Edit3Icon />Add note..
             </div>
+            <div class="links">
+              <span>
+                <a href="https://github.com/egoist/denote/issues/new" target="_blank">Report Bugs</a>
+              </span>
+              <span>
+                <a href="https://patreon.com/egoist" target="_blank">Donate</a>
+              </span>
+            </div>
           </div>
         </div>
         <div class="column is-8">
@@ -243,6 +251,29 @@ export default Vue.extend({
 
   &:hover {
     color: var(--active-text-color);
+  }
+}
+
+.links {
+  margin-top: 15px;
+  font-size: 0;
+
+  & span {
+    font-size: .7rem;
+    &:not(:last-child) {
+      &:after {
+        content: '•';
+        margin: 0 8px;
+        opacity: .5;
+      }
+    }
+  }
+
+  & a {
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
   }
 }
 </style>

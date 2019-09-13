@@ -28,6 +28,9 @@
               <div class="note-content">{{ note.content }}</div>
               <div class="note-meta">
                 <span class="note-date">{{ formatDate(new Date(note.createdAt)) }}</span>
+                <span class="note-action" @click="deleteNote(note.id)">
+                  {{ deletingId === note.id ? 'Deleting' : 'Delete' }}
+                </span>
               </div>
             </div>
           </div>
@@ -59,7 +62,8 @@ export default Vue.extend({
       fetchedNotes: null,
       title: '',
       content: '',
-      saving: false
+      saving: false,
+      deletingId: null
     }
   },
 
@@ -100,6 +104,8 @@ export default Vue.extend({
       await userSession.putFile('notes.json', JSON.stringify(this.notes))
 
       this.saving = false
+      this.title = ''
+      this.content = ''
     },
 
     async fetchNotes(notes) {
@@ -109,6 +115,16 @@ export default Vue.extend({
           return JSON.parse(file)
         })
       )
+    },
+
+    async deleteNote(id) {
+      this.deletingId = id
+      await userSession.deleteFile(`notes/${id}.json`)
+      const newNotes = this.notes.filter(note => note.id !== id)
+      await userSession.putFile('notes.json', JSON.stringify(newNotes))
+      this.notes = newNotes
+      this.fetchedNotes = this.fetchedNotes.filter(note => note.id !== id)
+      this.deletingId = null
     }
   },
 
@@ -170,5 +186,16 @@ export default Vue.extend({
   font-size: 0.875rem;
   margin-top: 10px;
   color: var(--fade-text-color);
+}
+
+.note-meta {
+  & span {
+    margin-right: 20px;
+  }
+
+  & .note-action:hover {
+    cursor: pointer;
+    color: var(--active-text-color);
+  }
 }
 </style>

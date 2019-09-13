@@ -36,13 +36,13 @@ a {
 
 input, textarea {
   width: 100%;
-  border: 1px solid var(--border-color);
   border-radius: 3px;
-  padding: 10px;
   outline: none;
   font-size: 1rem;
   background-color: transparent;
   color: inherit;
+  border: none;
+  resize: none;
 }
 
 .form-group {

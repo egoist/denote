@@ -6,7 +6,6 @@ https://denote.xyz
 
 ## Todos
 
-- [ ] Allow to edit notes
 - [ ] Tags
 
 ## Develpment

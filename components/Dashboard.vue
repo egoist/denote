@@ -129,9 +129,8 @@ export default Vue.extend({
         this.fetchedNotes.push(note)
       }
 
-      await userSession.putFile('notes.json', JSON.stringify(this.notes))
-
       this.addNote = false
+      await userSession.putFile('notes.json', JSON.stringify(this.notes))
     },
 
     handleCancelSave() {

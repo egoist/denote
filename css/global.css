@@ -7,6 +7,7 @@
   --card-bg: #2d2e30;
   --card-border-radius: 10px;
   --container-width: 900px;
+  --header-height: 60px;
 }
 
 * {
@@ -64,4 +65,14 @@ input, textarea {
   &:hover {
     background: rgb(79, 209, 197);
   }
+}
+
+.card {
+  border: 1px solid var(--border-color);
+  padding: 20px;
+  border-radius: var(--card-border-radius);
+  width: 100%;
+  font-size: 1rem;
+  background: var(--card-bg);
+  margin-bottom: 15px;
 }

@@ -46,7 +46,7 @@ export default Vue.extend({
 <style scoped>
 .header {
   border-bottom: 1px solid var(--border-color);
-  height: 60px;
+  height: var(--header-height);
 }
 
 .header > .container {

@@ -3,36 +3,38 @@
     <div class="main" v-if="sortedNotes">
       <div class="columns">
         <div class="column is-4">
-          <div class="add-note" v-if="addNote">
-            <div class="form-group">
-              <input type="text" placeholder="Title" v-model="title" />
+          <div class="sticky">
+            <div class="add-note" v-if="addNote">
+              <ComposeBox :handleSave="handleSaveNote" :handleCancel="handleCancelSave" />
             </div>
-            <div class="form-group">
-              <textarea v-model="content" rows="10" autofocus placeholder="Type something.."></textarea>
+            <div class="add-note-trigger" v-else @click="addNote = true">
+              <Edit3Icon />Add note..
             </div>
-            <button
-              type="button"
-              :disabled="saving"
-              @click="handleSaveNote"
-            >{{ saving ? 'Saving' : 'Save' }}</button>
-            <button type="button" @click="addNote = false">Cancel</button>
-          </div>
-          <div class="add-note-trigger" v-else @click="addNote = true">
-            <Edit3Icon />Add note..
           </div>
         </div>
         <div class="column is-8">
           <div class="notes">
-            <div class="note" v-for="note in sortedNotes" :key="note.id">
-              <div class="note-title" v-if="note.title">{{ note.title }}</div>
-              <div class="note-content">{{ note.content }}</div>
-              <div class="note-meta">
-                <span class="note-date">{{ formatDate(new Date(note.createdAt)) }}</span>
-                <span class="note-action" @click="deleteNote(note.id)">
-                  {{ deletingId === note.id ? 'Deleting' : 'Delete' }}
-                </span>
+            <template v-for="note in sortedNotes">
+              <div class="card note-editor" :key="note.id" v-if="editingIds.indexOf(note.id) > -1">
+                <ComposeBox
+                  :note="note"
+                  :handleSave="handleEditNote"
+                  :handleCancel="handleCancelEditNote"
+                />
               </div>
-            </div>
+              <div class="note" :key="note.id" v-else>
+                <div class="note-title" v-if="note.title">{{ note.title }}</div>
+                <div class="note-content">{{ note.content }}</div>
+                <div class="note-meta">
+                  <span class="note-date">{{ formatDate(new Date(note.createdAt)) }}</span>
+                  <span class="note-action" @click="editingIds.push(note.id)">Edit</span>
+                  <span
+                    class="note-action"
+                    @click="deleteNote(note.id)"
+                  >{{ deletingId === note.id ? 'Deleting' : 'Delete' }}</span>
+                </div>
+              </div>
+            </template>
           </div>
         </div>
       </div>
@@ -46,13 +48,16 @@ import Vue from 'vue'
 import { userSession } from '../utils/userSession'
 import { uid } from '../utils/uid'
 import tinydate from 'tinydate'
-import { Edit3Icon } from 'vue-feather-icons'
+import { Edit3Icon, XSquareIcon } from 'vue-feather-icons'
+import ComposeBox from './ComposeBox.vue'
 
 const formatDate = tinydate('{YYYY}-{MM}-{DD} {HH}:{mm}:{ss}')
 
 export default Vue.extend({
   components: {
-    Edit3Icon
+    Edit3Icon,
+    XSquareIcon,
+    ComposeBox
   },
 
   data() {
@@ -63,7 +68,8 @@ export default Vue.extend({
       title: '',
       content: '',
       saving: false,
-      deletingId: null
+      deletingId: null,
+      editingIds: []
     }
   },
 
@@ -80,32 +86,42 @@ export default Vue.extend({
       userSession.signUserOut('/')
     },
 
-    async handleSaveNote() {
-      this.saving = true
-
+    async handleSaveNote(note, existing) {
       const meta = {
-        id: uid(),
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        tags: []
-      }
-      const note = {
-        ...meta,
-        title: this.title,
-        content: this.content
+        id: note.id,
+        createdAt: note.createdAt,
+        updatedAt: note.updatedAt,
+        tags: note.tags
       }
 
-      // Create the node
-      await userSession.putFile(`notes/${meta.id}.json`, JSON.stringify(note))
+      // Create the note
+      await userSession.putFile(`notes/${note.id}.json`, JSON.stringify(note))
 
       // Update notes list
-      this.notes.push(meta)
-      this.fetchedNotes.push(note)
+      if (existing) {
+        this.notes = this.notes.map(_note => {
+          if (_note.id === note.id) {
+            return meta
+          }
+          return _note
+        })
+        this.fetchedNotes = this.fetchedNotes.map(_note => {
+          if (_note.id === note.id) {
+            return note
+          }
+          return _note
+        })
+      } else {
+        this.notes.push(meta)
+        this.fetchedNotes.push(note)
+      }
+
       await userSession.putFile('notes.json', JSON.stringify(this.notes))
 
-      this.saving = false
-      this.title = ''
-      this.content = ''
+      this.addNote = false
+    },
+
+    handleCancelSave() {
       this.addNote = false
     },
 
@@ -126,6 +142,15 @@ export default Vue.extend({
       this.notes = newNotes
       this.fetchedNotes = this.fetchedNotes.filter(note => note.id !== id)
       this.deletingId = null
+    },
+
+    async handleEditNote(note) {
+      await this.handleSaveNote(note, true)
+      this.handleCancelEditNote(note)
+    },
+
+    handleCancelEditNote(note) {
+      this.editingIds = this.editingIds.filter(id => id !== note.id)
     }
   },
 
@@ -196,6 +221,27 @@ export default Vue.extend({
 
   & .note-action:hover {
     cursor: pointer;
+    color: var(--active-text-color);
+  }
+}
+
+.sticky {
+  position: sticky;
+  top: 15px;
+}
+
+.editing {
+  margin-bottom: 15px;
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+
+  & svg {
+    margin-right: 5px;
+  }
+
+  &:hover {
     color: var(--active-text-color);
   }
 }

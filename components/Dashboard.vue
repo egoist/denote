@@ -48,7 +48,9 @@
       </div>
     </div>
     <div class="main" v-else>
-      <div class="loading"><div></div></div>
+      <div class="loading">
+        <div></div>
+      </div>
     </div>
   </div>
 </template>
@@ -146,13 +148,15 @@ export default Vue.extend({
     },
 
     async deleteNote(id) {
-      this.deletingId = id
-      await userSession.deleteFile(`notes/${id}.json`)
-      const newNotes = this.notes.filter(note => note.id !== id)
-      await userSession.putFile('notes.json', JSON.stringify(newNotes))
-      this.notes = newNotes
-      this.fetchedNotes = this.fetchedNotes.filter(note => note.id !== id)
-      this.deletingId = null
+      if (window.confirm('Are you sure?')) {
+        this.deletingId = id
+        await userSession.deleteFile(`notes/${id}.json`)
+        const newNotes = this.notes.filter(note => note.id !== id)
+        await userSession.putFile('notes.json', JSON.stringify(newNotes))
+        this.notes = newNotes
+        this.fetchedNotes = this.fetchedNotes.filter(note => note.id !== id)
+        this.deletingId = null
+      }
     },
 
     async handleEditNote(note) {
@@ -266,12 +270,12 @@ export default Vue.extend({
   font-size: 0;
 
   & span {
-    font-size: .7rem;
+    font-size: 0.7rem;
     &:not(:last-child) {
       &:after {
         content: '•';
         margin: 0 8px;
-        opacity: .5;
+        opacity: 0.5;
       }
     }
   }

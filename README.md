@@ -4,6 +4,11 @@ A Decentralized Note-Taking App.
 
 https://denote.xyz
 
+## Todos
+
+- [ ] Allow to edit notes
+- [ ] Tags
+
 ## Develpment
 
 ```bash

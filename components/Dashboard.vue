@@ -106,6 +106,7 @@ export default Vue.extend({
       this.saving = false
       this.title = ''
       this.content = ''
+      this.addNote = false
     },
 
     async fetchNotes(notes) {

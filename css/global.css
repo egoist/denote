@@ -1,0 +1,64 @@
+:root {
+  --border-color: #5f6368;
+  --body-bg: #202124;
+  --text-color: #e8eaed;
+  --fade-text-color: #9aa0a6;
+  --active-text-color: #fff;
+  --card-bg: #2d2e30;
+  --card-border-radius: 10px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--body-bg);
+  color: var(--text-color);
+}
+
+a {
+  color: inherit;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 10px;
+}
+
+.main {
+  margin: 30px 0;
+}
+
+input, textarea {
+  width: 100%;
+  border: 1px solid var(--border-color);
+  border-radius: 3px;
+  padding: 10px;
+  outline: none;
+  font-size: 1rem;
+  background-color: transparent;
+  color: inherit;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.button {
+  border: none;
+  border-radius: 3px;
+  padding: 10px 17px;
+  font-size: 1rem;
+  outline: none;
+  background: transparent;
+  color: #333;
+  cursor: pointer;
+  background: rgb(129, 230, 217);
+
+  &:hover {
+    background: rgb(79, 209, 197);
+  }
+}

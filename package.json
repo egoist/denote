@@ -1,0 +1,21 @@
+{
+  "private": true,
+  "name": "denote",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build"
+  },
+  "dependencies": {
+    "blockstack": "^19.3.0",
+    "grid.css": "^0.6.1",
+    "nuxt": "^2.9.2",
+    "tinydate": "^1.2.0",
+    "vue-feather-icons": "^5.0.0"
+  },
+  "devDependencies": {
+    "postcss-preset-env": "^6.7.0"
+  }
+}

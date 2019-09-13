@@ -6,6 +6,7 @@
   --active-text-color: #fff;
   --card-bg: #2d2e30;
   --card-border-radius: 10px;
+  --container-width: 900px;
 }
 
 * {
@@ -25,7 +26,7 @@ a {
 }
 
 .container {
-  max-width: 900px;
+  max-width: var(--container-width);
   margin: 0 auto;
   padding: 0 10px;
 }

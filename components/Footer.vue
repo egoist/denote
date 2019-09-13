@@ -9,11 +9,12 @@
 <style scoped>
 .footer {
   text-align: center;
+  margin-top: 100px;
 }
 
 .footer > .container {
   border-top: 1px solid var(--border-color);
-  margin-top: 100px;
   padding: 50px 0;
+  width: calc(var(--container-width) - 20px);
 }
 </style>

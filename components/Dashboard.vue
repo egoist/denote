@@ -77,7 +77,6 @@ export default Vue.extend({
     return {
       addNote: false,
       notes: null,
-      fetchedNotes: null,
       title: '',
       content: '',
       saving: false,
@@ -89,7 +88,6 @@ export default Vue.extend({
   async mounted() {
     const file = await userSession.getFile('notes.json')
     this.notes = JSON.parse(file || '[]')
-    this.fetchedNotes = await this.fetchNotes(this.notes)
   },
 
   methods: {
@@ -100,36 +98,22 @@ export default Vue.extend({
     },
 
     async handleSaveNote(note, existing) {
-      const meta = {
-        id: note.id,
-        createdAt: note.createdAt,
-        updatedAt: note.updatedAt,
-        tags: note.tags
-      }
 
-      // Create the note
-      await userSession.putFile(`notes/${note.id}.json`, JSON.stringify(note))
-
-      // Update notes list
       if (existing) {
+        // Update note if already exist
         this.notes = this.notes.map(_note => {
-          if (_note.id === note.id) {
-            return meta
-          }
-          return _note
-        })
-        this.fetchedNotes = this.fetchedNotes.map(_note => {
           if (_note.id === note.id) {
             return note
           }
           return _note
         })
+
       } else {
-        this.notes.push(meta)
-        this.fetchedNotes.push(note)
+        this.notes.push(note)
       }
 
       this.addNote = false
+      
       await userSession.putFile('notes.json', JSON.stringify(this.notes))
     },
 
@@ -137,24 +121,12 @@ export default Vue.extend({
       this.addNote = false
     },
 
-    async fetchNotes(notes) {
-      return Promise.all(
-        notes.map(async note => {
-          const file = await userSession.getFile(`notes/${note.id}.json`)
-          return JSON.parse(file)
-        })
-      )
-    },
-
     async deleteNote(id) {
       if (window.confirm('Are you sure?')) {
         this.deletingId = id
-        await userSession.deleteFile(`notes/${id}.json`)
-        const newNotes = this.notes.filter(note => note.id !== id)
-        await userSession.putFile('notes.json', JSON.stringify(newNotes))
-        this.notes = newNotes
-        this.fetchedNotes = this.fetchedNotes.filter(note => note.id !== id)
+        this.notes = this.notes.filter(note => note.id !== id)
         this.deletingId = null
+        await userSession.putFile('notes.json', JSON.stringify(this.notes))
       }
     },
 
@@ -175,8 +147,8 @@ export default Vue.extend({
   computed: {
     sortedNotes() {
       return (
-        this.fetchedNotes &&
-        this.fetchedNotes.sort((a, b) => {
+        this.notes &&
+        this.notes.sort((a, b) => {
           const aDate = new Date(a.createdAt)
           const bDate = new Date(b.createdAt)
           return bDate - aDate

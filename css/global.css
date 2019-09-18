@@ -78,3 +78,11 @@ input, textarea {
   background: var(--card-bg);
   margin-bottom: 15px;
 }
+
+.card.is-link {
+  cursor: pointer;
+
+  &:hover {
+    background-color: #000;
+  }
+}

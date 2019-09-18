@@ -21,6 +21,11 @@
           </div>
         </div>
         <div class="column is-8">
+          <div
+            class="card is-link"
+            v-if="oldNotes"
+            @click="importOldNotes(oldNotes)"
+          >{{ importingOldNotes ? 'Importing' : 'Import' }} {{ oldNotes.length }} old notes.</div>
           <div class="notes">
             <template v-for="note in sortedNotes">
               <div class="card note-editor" :key="note.id" v-if="editingIds.indexOf(note.id) > -1">
@@ -63,8 +68,25 @@ import { uid } from '../utils/uid'
 import tinydate from 'tinydate'
 import { Edit3Icon, XSquareIcon } from 'vue-feather-icons'
 import ComposeBox from './ComposeBox.vue'
+import { NOTES_FILE } from '../utils/constants'
 
 const formatDate = tinydate('{YYYY}-{MM}-{DD} {HH}:{mm}:{ss}')
+
+async function updateNotesFile(notes, data) {
+  await userSession.putFile(
+    NOTES_FILE,
+    JSON.stringify({
+      notes,
+      updatedAt: new Date(),
+      ...data
+    })
+  )
+}
+
+async function fetchOldNotes() {
+  const file = await userSession.getFile('notes.json')
+  return JSON.parse(file || '[]')
+}
 
 export default Vue.extend({
   components: {
@@ -77,19 +99,26 @@ export default Vue.extend({
     return {
       addNote: false,
       notes: null,
-      fetchedNotes: null,
       title: '',
       content: '',
       saving: false,
       deletingId: null,
-      editingIds: []
+      editingIds: [],
+      oldNotes: null,
+      importingOldNotes: false
     }
   },
 
   async mounted() {
-    const file = await userSession.getFile('notes.json')
-    this.notes = JSON.parse(file || '[]')
-    this.fetchedNotes = await this.fetchNotes(this.notes)
+    const file = await userSession.getFile(NOTES_FILE)
+    const { notes, disableOldNotes } = file ? JSON.parse(file) : { notes: [] }
+    this.notes = notes
+
+    if (!disableOldNotes) {
+      fetchOldNotes().then(notes => {
+        this.oldNotes = notes
+      })
+    }
   },
 
   methods: {
@@ -100,60 +129,35 @@ export default Vue.extend({
     },
 
     async handleSaveNote(note, existing) {
-      const meta = {
-        id: note.id,
-        createdAt: note.createdAt,
-        updatedAt: note.updatedAt,
-        tags: note.tags
-      }
-
-      // Create the note
-      await userSession.putFile(`notes/${note.id}.json`, JSON.stringify(note))
+      let newNotes
 
       // Update notes list
       if (existing) {
-        this.notes = this.notes.map(_note => {
-          if (_note.id === note.id) {
-            return meta
-          }
-          return _note
-        })
-        this.fetchedNotes = this.fetchedNotes.map(_note => {
+        newNotes = this.notes.map(_note => {
           if (_note.id === note.id) {
             return note
           }
           return _note
         })
       } else {
-        this.notes.push(meta)
-        this.fetchedNotes.push(note)
+        newNotes = this.notes.concat(note)
       }
 
+      await updateNotesFile(newNotes)
+      this.notes = newNotes
       this.addNote = false
-      await userSession.putFile('notes.json', JSON.stringify(this.notes))
     },
 
     handleCancelSave() {
       this.addNote = false
     },
 
-    async fetchNotes(notes) {
-      return Promise.all(
-        notes.map(async note => {
-          const file = await userSession.getFile(`notes/${note.id}.json`)
-          return JSON.parse(file)
-        })
-      )
-    },
-
     async deleteNote(id) {
       if (window.confirm('Are you sure?')) {
         this.deletingId = id
-        await userSession.deleteFile(`notes/${id}.json`)
         const newNotes = this.notes.filter(note => note.id !== id)
-        await userSession.putFile('notes.json', JSON.stringify(newNotes))
+        await updateNotesFile(newNotes)
         this.notes = newNotes
-        this.fetchedNotes = this.fetchedNotes.filter(note => note.id !== id)
         this.deletingId = null
       }
     },
@@ -169,14 +173,35 @@ export default Vue.extend({
 
     toHTML(content) {
       return marked(content)
+    },
+
+    async importOldNotes(notes) {
+      if (this.importingOldNotes) {
+        return
+      }
+      this.importingOldNotes = true
+      const oldNotes = await Promise.all(
+        notes.map(async note => {
+          const file = await userSession.getFile(`notes/${note.id}.json`)
+          await userSession.deleteFile(`notes/${note.id}.json`)
+          return Object.assign(note, JSON.parse(file))
+        })
+      )
+      const newNotes = this.notes.concat(oldNotes)
+      await updateNotesFile(newNotes, { disableOldNotes: true })
+      this.notes = newNotes
+      this.oldNotes = null
+
+      // Remove old notes.json
+      await userSession.deleteFile('notes.json')
     }
   },
 
   computed: {
     sortedNotes() {
       return (
-        this.fetchedNotes &&
-        this.fetchedNotes.sort((a, b) => {
+        this.notes &&
+        this.notes.sort((a, b) => {
           const aDate = new Date(a.createdAt)
           const bDate = new Date(b.createdAt)
           return bDate - aDate

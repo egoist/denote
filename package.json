@@ -10,11 +10,13 @@
   },
   "dependencies": {
     "blockstack": "^19.3.0",
+    "browser-lang": "^0.1.0",
     "grid.css": "^0.6.1",
     "marked": "^0.7.0",
     "nuxt": "^2.9.2",
     "tinydate": "^1.2.0",
-    "vue-feather-icons": "^5.0.0"
+    "vue-feather-icons": "^5.0.0",
+    "vue-inter": "^3.0.0"
   },
   "devDependencies": {
     "postcss-preset-env": "^6.7.0"

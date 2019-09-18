@@ -29,6 +29,9 @@ module.exports = {
     './css/loading.css',
     './css/note.css'
   ],
+  plugins: [
+    './plugins/vue-inter.js'
+  ],
   build: {
     postcss: {
       plugins: [

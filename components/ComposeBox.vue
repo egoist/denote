@@ -1,23 +1,32 @@
 <template>
   <div class="compose-box">
     <div class="form-group">
-      <input type="text" placeholder="Title (optional)" v-model="actualNote.title" />
+      <input
+        type="text"
+        :placeholder="$inter.formatMessage({ path: 'editor.titlePlaceholder' })"
+        v-model="actualNote.title"
+      />
     </div>
     <div class="form-group">
-      <textarea v-model="actualNote.content" rows="10" autofocus placeholder="Type something.."></textarea>
+      <textarea
+        v-model="actualNote.content"
+        rows="10"
+        autofocus
+        :placeholder="$inter.formatMessage({ path: 'editor.contentPlaceholder' })"
+      ></textarea>
     </div>
-    <button
-      type="button"
-      :disabled="saving || !actualNote.content"
-      @click="save"
-    >{{ saving ? 'Saving' : 'Save' }}</button>
-    <button type="button" v-if="handleCancel" @click="cancel">Cancel</button>
+    <button type="button" :disabled="saving || !actualNote.content" @click="save">
+      <format-message :path="saving ? 'editor.saving' : 'editor.save'" />
+    </button>
+    <button type="button" v-if="handleCancel" @click="cancel">
+      <format-message path="editor.cancel" />
+    </button>
   </div>
 </template>
 
 <script>
 import Vue from 'vue'
-import {uid} from '../utils/uid'
+import { uid } from '../utils/uid'
 
 export default Vue.extend({
   props: {
@@ -39,7 +48,7 @@ export default Vue.extend({
         id: uid(),
         title: '',
         content: '',
-        tags: [],
+        tags: []
       },
       saving: false
     }
@@ -48,7 +57,7 @@ export default Vue.extend({
   methods: {
     async save() {
       this.saving = true
-      const note = {...this.actualNote}
+      const note = { ...this.actualNote }
       if (!note.createdAt) {
         note.createdAt = new Date()
       }

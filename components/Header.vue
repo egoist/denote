@@ -8,8 +8,12 @@
         </div>
       </div>
       <div class="header-right">
-        <span v-if="isSignedIn" class="nav-item" @click="signOut">Sign out</span>
-        <span v-else class="nav-item" @click="signIn">Sign in</span>
+        <span v-if="isSignedIn" class="nav-item" @click="signOut">
+          {{ $inter.formatMessage({ path: 'app.signOut' }) }}
+        </span>
+        <span v-else class="nav-item" @click="signIn">
+          {{ $inter.formatMessage({ path: 'app.signIn' }) }}
+        </span>
       </div>
     </div>
   </header>

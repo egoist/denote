@@ -8,14 +8,20 @@
               <ComposeBox :handleSave="handleSaveNote" :handleCancel="handleCancelSave" />
             </div>
             <div class="add-note-trigger" v-else @click="addNote = true">
-              <Edit3Icon />Add note..
+              <Edit3Icon />{{ $inter.formatMessage({ path: 'editor.addNote' }) }}
             </div>
             <div class="links">
               <span>
-                <a href="https://github.com/egoist/denote/issues/new" target="_blank">Report Bugs</a>
+                <a
+                  href="https://github.com/egoist/denote/issues/new"
+                  target="_blank"
+                >{{ $inter.formatMessage({ path: 'app.reportBugs' }) }}</a>
               </span>
               <span>
-                <a href="https://patreon.com/egoist" target="_blank">Donate</a>
+                <a
+                  href="https://patreon.com/egoist"
+                  target="_blank"
+                >{{ $inter.formatMessage({ path: 'app.donate' }) }}</a>
               </span>
             </div>
           </div>
@@ -40,11 +46,13 @@
                 <div class="note-content" v-html="toHTML(note.content)"></div>
                 <div class="note-meta">
                   <span class="note-date">{{ formatDate(new Date(note.createdAt)) }}</span>
-                  <span class="note-action" @click="editingIds.push(note.id)">Edit</span>
+                  <span class="note-action" @click="editingIds.push(note.id)">
+                    {{ $inter.formatMessage({ path: 'note.edit' }) }}
+                  </span>
                   <span
                     class="note-action"
                     @click="deleteNote(note.id)"
-                  >{{ deletingId === note.id ? 'Deleting' : 'Delete' }}</span>
+                  >{{ $inter.formatMessage({path: deletingId === note.id ? 'note.deleting' : 'note.delete' }) }}</span>
                 </div>
               </div>
             </template>

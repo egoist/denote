@@ -3,9 +3,13 @@
     <div class="container">
       <div class="hero">
         <Logo size="4em" />
-        <h2>A Decentralized Note-Taking App</h2>
+        <h2>
+          {{ $inter.formatMessage({ path: 'app.slogan' }) }}
+        </h2>
         <div class="actions">
-          <button class="button" @click="signIn">Sign In</button>
+          <button class="button" @click="signIn">
+            {{ $inter.formatMessage({ path: 'app.signIn' }) }}
+          </button>
         </div>
       </div>
       <div class="features">
@@ -28,22 +32,9 @@ export default Vue.extend({
     Logo
   },
 
-  data() {
-    return {
-      features: [
-        {
-          title: 'Your notes.. decentralized',
-          content: `Do you want to keep sensitive data in your notes? If you don't want to give your data away, Denote is just for you!`
-        },
-        {
-          title: 'Free and Open Source',
-          content: `Denote is a <a href="https://github.com/egoist/denote">free and open source app</a>, our goal is to become one of the best note apps on blockstack.`
-        },
-        {
-          title: 'Simple and easy-to-use',
-          content: `Inspired by the simple design of Google Keep, Denote is just about notes and nothing else!`
-        }
-      ]
+  computed: {
+    features() {
+      return this.$inter.formatMessage({ path: 'app.features' })
     }
   },
 
@@ -88,7 +79,7 @@ export default Vue.extend({
 }
 
 .feature {
-  padding-right: 0 10px;
+  padding: 0 15px;
 }
 
 .feature-title {

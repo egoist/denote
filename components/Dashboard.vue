@@ -23,7 +23,7 @@
         <div class="column is-8">
           <div
             class="card is-link"
-            v-if="oldNotes"
+            v-if="oldNotes && oldNotes.length > 0"
             @click="importOldNotes(oldNotes)"
           >{{ importingOldNotes ? 'Importing' : 'Import' }} {{ oldNotes.length }} old notes.</div>
           <div class="notes">

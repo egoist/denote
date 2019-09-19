@@ -8,9 +8,20 @@
         </div>
       </div>
       <div class="header-right">
-        <span v-if="isSignedIn" class="nav-item" @click="signOut">
-          {{ $inter.formatMessage({ path: 'app.signOut' }) }}
-        </span>
+        <div  v-if="isSignedIn" class="dropdown">
+          <ul>
+            <li>
+              <span class="nav-item" @click="signOut">
+                {{ $inter.formatMessage({ path: 'app.signOut' }) }}
+              </span>
+            </li>
+            <li>
+              <span  class="nav-item" @click="exportNotes">
+                {{ $inter.formatMessage({ path: 'app.exportNotes' }) }}
+              </span>
+            </li>
+          </ul>
+        </div>
         <span v-else class="nav-item" @click="signIn">
           {{ $inter.formatMessage({ path: 'app.signIn' }) }}
         </span>
@@ -22,6 +33,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import { userSession } from '../utils/userSession'
+import { NOTES_FILE } from '../utils/constants'
 import Logo from './Logo.vue'
 
 export default Vue.extend({
@@ -42,6 +54,25 @@ export default Vue.extend({
 
     signOut() {
       userSession.signUserOut('/')
+    },
+
+    exportNotes() {
+      userSession.getFile(NOTES_FILE).then(file=>{
+        this.returnDownload(NOTES_FILE,file);
+      });
+    },
+    
+    returnDownload(filename, text) {
+      var element = document.createElement('a');
+      element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+      element.setAttribute('download', filename);
+    
+      element.style.display = 'none';
+      document.body.appendChild(element);
+    
+      element.click();
+    
+      document.body.removeChild(element);
     }
   }
 })
@@ -78,3 +109,4 @@ export default Vue.extend({
   cursor: pointer;
 }
 </style>
+

@@ -64,6 +64,9 @@ export default Vue.extend({
 
     exportNotes() {
       userSession.getFile(NOTES_FILE).then(file=>{
+        if(file==="undefined"){
+          file = JSON.stringify({"notes":[],"updatedAt":Date.now()});
+        }
         this.returnDownload(NOTES_FILE,file);
       });
     },

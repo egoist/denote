@@ -1,5 +1,13 @@
 <template>
   <header class="header">
+      <style lang="stylus" scoped>
+        .dd-class-bp__btn--active {
+          background: #202124;
+        }
+        .dd-class-bp__body {
+          background: #202124;
+        }
+      </style>
     <div class="container">
       <div class="header-left">
         <div class="logo">
@@ -9,18 +17,20 @@
       </div>
       <div class="header-right">
         <div  v-if="isSignedIn" class="dropdown">
-          <ul>
-            <li>
-              <span class="nav-item" @click="signOut">
-                {{ $inter.formatMessage({ path: 'app.signOut' }) }}
-              </span>
-            </li>
-            <li>
-              <span  class="nav-item" @click="exportNotes">
-                {{ $inter.formatMessage({ path: 'app.exportNotes' }) }}
-              </span>
-            </li>
-          </ul>
+          <dropdown :class-name="'dd-class'">
+              <template slot="btn">Profile</template>
+              <template slot="body">
+                <ul style="list-style-type: none;">
+                  <li @click="exportNotes">
+                      {{ $inter.formatMessage({ path: 'app.exportNotes' }) }}
+                  </li>
+                  <li @click="signOut">
+                      {{ $inter.formatMessage({ path: 'app.signOut' }) }}
+                  </li>
+                  
+                </ul>
+              </template>
+          </dropdown>
         </div>
         <span v-else class="nav-item" @click="signIn">
           {{ $inter.formatMessage({ path: 'app.signIn' }) }}
@@ -35,10 +45,12 @@ import Vue from 'vue'
 import { userSession } from '../utils/userSession'
 import { NOTES_FILE } from '../utils/constants'
 import Logo from './Logo.vue'
+import Dropdown from 'bp-vuejs-dropdown';
 
 export default Vue.extend({
   components: {
-    Logo
+    Logo,
+    Dropdown
   },
 
   computed: {
@@ -61,7 +73,7 @@ export default Vue.extend({
         this.returnDownload(NOTES_FILE,file);
       });
     },
-    
+
     returnDownload(filename, text) {
       var element = document.createElement('a');
       element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));

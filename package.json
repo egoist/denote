@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "blockstack": "^19.3.0",
-    "bp-vuejs-dropdown": "^2.1.1",
     "browser-lang": "^0.1.0",
     "grid.css": "^0.6.1",
     "marked": "^0.7.0",

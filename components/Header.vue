@@ -8,22 +8,10 @@
         </div>
       </div>
       <div class="header-right">
-        <div  v-if="isSignedIn" class="dropdown">
-          <dropdown :class-name="'dd-class'">
-              <template slot="btn">{{ $inter.formatMessage({ path: 'app.profile' }) }}</template>
-              <template slot="body">
-                <ul style="list-style-type: none;">
-                  <li @click="exportNotes">
-                      {{ $inter.formatMessage({ path: 'app.exportNotes' }) }}
-                  </li>
-                  <li @click="signOut">
-                      {{ $inter.formatMessage({ path: 'app.signOut' }) }}
-                  </li>
-                  
-                </ul>
-              </template>
-          </dropdown>
-        </div>
+        <ddMenu v-if="isSignedIn" 
+          :title=" $inter.formatMessage({ path: 'app.profile' })" 
+          :items="items"
+        />
         <span v-else class="nav-item" @click="signIn">
           {{ $inter.formatMessage({ path: 'app.signIn' }) }}
         </span>
@@ -37,13 +25,27 @@ import Vue from 'vue'
 import { userSession } from '../utils/userSession'
 import { NOTES_FILE } from '../utils/constants'
 import Logo from './Logo.vue'
-import Dropdown from 'bp-vuejs-dropdown';
+import ddMenu from './Dropdown-menu';
 
 export default Vue.extend({
   components: {
     Logo,
-    Dropdown
+    ddMenu
   },
+      data: ()=> { 
+        return {
+            items: [
+                {
+                  text:'app.exportNotes',
+                  callback:'exportNotes'
+                },
+                {
+                  text:'app.signOut',
+                  callback:'signOut'
+                },
+            ]
+        } 
+    },
 
   computed: {
     isSignedIn() {

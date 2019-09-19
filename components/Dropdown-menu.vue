@@ -56,15 +56,13 @@ export default Vue.extend({
 }
 
 .dropdown-content {
-  border-style: solid;
-  border-width: 1px;
   display: none;
   position: absolute;
-  top: 24px;
   background-color:var(--body-bg);
   min-width: 130px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  padding: 5px 8px;
+  padding: 4px 8px;
+  top: 25px;
   z-index: 1;
 }
 .dropdown-content > a{

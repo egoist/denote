@@ -1,13 +1,5 @@
 <template>
   <header class="header">
-      <style lang="stylus" scoped>
-        .dd-class-bp__btn--active {
-          background: #202124;
-        }
-        .dd-class-bp__body {
-          background: #202124;
-        }
-      </style>
     <div class="container">
       <div class="header-left">
         <div class="logo">

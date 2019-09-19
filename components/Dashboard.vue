@@ -77,7 +77,6 @@ import tinydate from 'tinydate'
 import { Edit3Icon, XSquareIcon } from 'vue-feather-icons'
 import ComposeBox from './ComposeBox.vue'
 import { NOTES_FILE } from '../utils/constants'
-import { async } from 'q'
 
 const formatDate = tinydate('{YYYY}-{MM}-{DD} {HH}:{mm}:{ss}')
 

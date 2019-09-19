@@ -18,7 +18,7 @@
       <div class="header-right">
         <div  v-if="isSignedIn" class="dropdown">
           <dropdown :class-name="'dd-class'">
-              <template slot="btn">Profile</template>
+              <template slot="btn">{{ $inter.formatMessage({ path: 'app.profile' }) }}</template>
               <template slot="body">
                 <ul style="list-style-type: none;">
                   <li @click="exportNotes">

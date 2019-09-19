@@ -18,6 +18,7 @@ const messages = {
       signIn: 'Sign In',
       slogan: 'A Decentralized Note-Taking App',
       exportNotes: 'Export notes',
+      profile: 'Profile',
       features() {
         return [
           {
@@ -57,6 +58,7 @@ const messages = {
       signIn: '登录',
       slogan: '一个去中心化的笔记应用',
       exportNotes: 'Export notes',
+      profile: 'Profile',
       features() {
         return [
           {

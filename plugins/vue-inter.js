@@ -5,7 +5,7 @@ import browserLang from 'browser-lang'
 Vue.use(Inter)
 
 const lang = browserLang({
-  languages: ['zh_CN', 'en'],
+  languages: ['zh_CN', 'en', 'fr'],
   fallback: 'en'
 })
 
@@ -46,6 +46,44 @@ const messages = {
       delete: 'Delete',
       deleting: 'Deleting..',
       edit: 'Edit'
+    }
+  },
+  fr: {
+    app: {
+      reportBugs: 'Signaler des bugs',
+      donate: 'Faire un don',
+      signOut: 'Se déconnecter',
+      signIn: 'Se connecter',
+      slogan: 'Une application décentralisée de notes',
+      features() {
+        return [
+          {
+            title: 'Vos notes.. décentralisées',
+            content: `Souhaitez-vous conserver des données sensibles dans vos notes ? Si vous ne voulez pas partager vos données, Denote est fait pour vous !`
+          },
+          {
+            title: 'Gratuit et open source',
+            content: `Denote est une <a href="https://github.com/egoist/denote">application gratuite et open source</a>, notre but est de devenir l'une des meilleures applications de note sur blockstack.`
+          },
+          {
+            title: 'Simple et intuitif',
+            content: `Inspiré par le design simple de Google Keep, Denote est uniquement pour les notes et rien d'autre !`
+          }
+        ]
+      }
+    },
+    editor: {
+      addNote: 'Ajouter une note..',
+      saving: 'Sauvegarde en cours',
+      save: 'Sauvegarder',
+      cancel: 'Annuler',
+      titlePlaceholder: 'Titre (facultatif)',
+      contentPlaceholder: 'Saisissez quelquechose..'
+    },
+    note: {
+      delete: 'Supprimer',
+      deleting: 'Suppression en cours..',
+      edit: 'Modifier'
     }
   },
   zh_CN: {

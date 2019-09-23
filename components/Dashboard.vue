@@ -161,7 +161,7 @@ export default Vue.extend({
     },
 
     async deleteNote(id) {
-      if (window.confirm('Are you sure?')) {
+      if (window.confirm(this.$inter.formatMessage({ path: 'note.confirmDelete' }))) {
         this.deletingId = id
         const newNotes = this.notes.filter(note => note.id !== id)
         await updateNotesFile(newNotes)

@@ -1,4 +1,4 @@
-import Vue from 'vue'
+﻿import Vue from 'vue'
 import Inter from 'vue-inter'
 import browserLang from 'browser-lang'
 
@@ -45,7 +45,8 @@ const messages = {
     note: {
       delete: 'Delete',
       deleting: 'Deleting..',
-      edit: 'Edit'
+      edit: 'Edit',
+      confirmDelete: 'Are you sure?'
     }
   },
   fr: {
@@ -83,7 +84,8 @@ const messages = {
     note: {
       delete: 'Supprimer',
       deleting: 'Suppression en cours..',
-      edit: 'Modifier'
+      edit: 'Modifier',
+      confirmDelete: 'Êtes-vous sûr ?'
     }
   },
   zh_CN: {
@@ -121,7 +123,8 @@ const messages = {
     note: {
       delete: '删除',
       deleting: '删除中..',
-      edit: '编辑'
+      edit: '编辑',
+      confirmDelete: '你确定吗?'
     }
   }
 }

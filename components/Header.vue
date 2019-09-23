@@ -8,9 +8,10 @@
         </div>
       </div>
       <div class="header-right">
-        <span v-if="isSignedIn" class="nav-item" @click="signOut">
-          {{ $inter.formatMessage({ path: 'app.signOut' }) }}
-        </span>
+        <ddMenu v-if="isSignedIn" 
+          :title=" $inter.formatMessage({ path: 'app.profile' })" 
+          :items="items"
+        />
         <span v-else class="nav-item" @click="signIn">
           {{ $inter.formatMessage({ path: 'app.signIn' }) }}
         </span>
@@ -22,12 +23,29 @@
 <script lang="ts">
 import Vue from 'vue'
 import { userSession } from '../utils/userSession'
+import { NOTES_FILE } from '../utils/constants'
 import Logo from './Logo.vue'
+import ddMenu from './Dropdown-menu';
 
 export default Vue.extend({
   components: {
-    Logo
+    Logo,
+    ddMenu
   },
+      data: ()=> { 
+        return {
+            items: [
+                {
+                  text:'app.exportNotes',
+                  callback:'exportNotes'
+                },
+                {
+                  text:'app.signOut',
+                  callback:'signOut'
+                },
+            ]
+        } 
+    },
 
   computed: {
     isSignedIn() {
@@ -42,6 +60,28 @@ export default Vue.extend({
 
     signOut() {
       userSession.signUserOut('/')
+    },
+
+    exportNotes() {
+      userSession.getFile(NOTES_FILE).then(file=>{
+        if(file==="undefined"){
+          file = JSON.stringify({"notes":[],"updatedAt":Date.now()});
+        }
+        this.returnDownload(NOTES_FILE,file);
+      });
+    },
+
+    returnDownload(filename, text) {
+      var element = document.createElement('a');
+      element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+      element.setAttribute('download', filename);
+    
+      element.style.display = 'none';
+      document.body.appendChild(element);
+    
+      element.click();
+    
+      document.body.removeChild(element);
     }
   }
 })
@@ -78,3 +118,4 @@ export default Vue.extend({
   cursor: pointer;
 }
 </style>
+

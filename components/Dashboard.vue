@@ -96,6 +96,7 @@ async function fetchOldNotes() {
   return JSON.parse(file || '[]')
 }
 
+
 export default Vue.extend({
   components: {
     Edit3Icon,

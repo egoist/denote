@@ -124,7 +124,7 @@ const messages = {
       delete: '删除',
       deleting: '删除中..',
       edit: '编辑',
-      confirmDelete: '你確定嗎'
+      confirmDelete: '你确定吗'
     }
   }
 }

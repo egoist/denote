@@ -17,6 +17,7 @@ const messages = {
       signOut: 'Sign out',
       signIn: 'Sign In',
       slogan: 'A Decentralized Note-Taking App',
+      downloadNotes: 'Download notes',
       features() {
         return [
           {
@@ -56,6 +57,7 @@ const messages = {
       signOut: 'Se déconnecter',
       signIn: 'Se connecter',
       slogan: 'Une application décentralisée de notes',
+      downloadNotes: 'Télécharger les notes',
       features() {
         return [
           {
@@ -95,6 +97,7 @@ const messages = {
       signOut: '登出',
       signIn: '登录',
       slogan: '一个去中心化的笔记应用',
+      downloadNotes: '下载笔记',
       features() {
         return [
           {

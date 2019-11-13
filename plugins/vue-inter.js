@@ -57,7 +57,7 @@ const messages = {
       signOut: 'Se déconnecter',
       signIn: 'Se connecter',
       slogan: 'Une application décentralisée de notes',
-      downloadNotes: 'Notes de téléchargement',
+      downloadNotes: 'Télécharger les notes',
       features() {
         return [
           {

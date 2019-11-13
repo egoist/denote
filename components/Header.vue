@@ -74,8 +74,8 @@ export default Vue.extend({
     },
     downloadNotes(){
       const notes = fetchNotes().then(notes => {
-      const data = JSON.stringify(notes)
-      saveFile(data)
+        const data = JSON.stringify(notes)
+        saveFile(data)
       })
 
     }

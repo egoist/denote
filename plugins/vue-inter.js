@@ -14,6 +14,9 @@ const messages = {
     app: {
       reportBugs: 'Report bugs',
       donate: 'Donate',
+      menu: 'Menu',
+      exportJson: 'Export JSON',
+      exportMarkdown: 'Export Markdown',
       signOut: 'Sign out',
       signIn: 'Sign In',
       slogan: 'A Decentralized Note-Taking App',
@@ -53,6 +56,9 @@ const messages = {
     app: {
       reportBugs: 'Signaler des bugs',
       donate: 'Faire un don',
+      menu: 'Menu',
+      exportJson: 'Exporter JSON',
+      exportMarkdown: 'Exporter Markdown',
       signOut: 'Se déconnecter',
       signIn: 'Se connecter',
       slogan: 'Une application décentralisée de notes',
@@ -92,6 +98,9 @@ const messages = {
     app: {
       reportBugs: '报告问题',
       donate: '捐赠',
+      menu: '菜单',
+      exportJson: '导出 JSON',
+      exportMarkdown: '导出 Markdown',
       signOut: '登出',
       signIn: '登录',
       slogan: '一个去中心化的笔记应用',

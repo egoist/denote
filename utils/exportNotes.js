@@ -19,8 +19,8 @@ async function fetchNotes() {
   return notes || []
 }
 
-function formatDate(timestamp) {
-  return new Date(timestamp).toISOString()
+function formatDate(createdAt) {
+  return new Date(createdAt).toISOString()
 }
 
 export async function exportNotesAsJSON() {
@@ -38,7 +38,7 @@ export async function exportNotesAsJSON() {
 
 export async function exportNotesAsMarkdown() {
   const notes = await fetchNotes()
-  const sorted = notes.slice().sort((a, b) => b.createdAt - a.createdAt)
+  const sorted = notes.slice().sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
   const sections = sorted.map(note => {
     const lines = []
     lines.push(note.title ? `## ${note.title}` : '## Untitled note')

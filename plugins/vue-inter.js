@@ -16,6 +16,9 @@ const messages = {
       donate: 'Donate',
       signOut: 'Sign out',
       signIn: 'Sign In',
+      menu: 'Menu',
+      exportAsJSON: 'Export as JSON',
+      exportAsMarkdown: 'Export as Markdown',
       slogan: 'A Decentralized Note-Taking App',
       features() {
         return [
@@ -55,6 +58,9 @@ const messages = {
       donate: 'Faire un don',
       signOut: 'Se déconnecter',
       signIn: 'Se connecter',
+      menu: 'Menu',
+      exportAsJSON: 'Exporter en JSON',
+      exportAsMarkdown: 'Exporter en Markdown',
       slogan: 'Une application décentralisée de notes',
       features() {
         return [
@@ -94,6 +100,9 @@ const messages = {
       donate: '捐赠',
       signOut: '登出',
       signIn: '登录',
+      menu: '菜单',
+      exportAsJSON: '导出为 JSON',
+      exportAsMarkdown: '导出为 Markdown',
       slogan: '一个去中心化的笔记应用',
       features() {
         return [
